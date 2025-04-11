@@ -21,7 +21,7 @@ async function showTemplate(data) {
         let pokemonData = await pokemonResponse.json();
         // console.log(pokemonData);
 
-        contentRef.innerHTML += `<div class='card'>
+        contentRef.innerHTML += `<div class='card' onclick='showCard(${i})'>
                                     <div class='card-header'>
                                         <h2>#${pokemonData.id}</h2>
                                         <h2>${pokemonData.species.name}</h2>
@@ -45,11 +45,40 @@ async function showTemplate(data) {
 
             let value = pokemonData.types[0].type.name;
             switchFunc(value, i);
-            
+
 
             typeRef.innerHTML += `<img src='${typeData.sprites['generation-vii']['lets-go-pikachu-lets-go-eevee'].name_icon}' class='type-img'>`;
         }
     }
+}
+
+async function showCard(i) {
+    let response = await fetch(dbURL + '.json');
+    let data = await response.json();
+    let pokemonResponse = await fetch(data.results[i].url);
+    let pokemonData = await pokemonResponse.json();
+    let popupRef = document.getElementById('popup-div');
+    popupRef.innerHTML = `<div class='popup-card'>
+                                <div class='card-header'>
+                                    <h2>#${pokemonData.id}</h2>
+                                    <h2>${pokemonData.species.name}</h2>
+                                    <button onclick='closePopup()'>X</button>
+                                </div>
+                                <img src='${pokemonData.sprites.front_default}' class='popup-card-img' id='card-img-${i}'>
+                                <div class='popup-card-type' id='type-${i}'>
+                                </div>
+                                <div class='popup-nav'>
+                                    <div class='popup-nav-element'>main</div>
+                                    <div class='popup-nav-element'>stats</div>                                        <div class='popup-nav-element'>evo</div>
+                                </div>
+                                <div class='popup-info' id='popup-info-${i}'>
+                                </div>
+                          </div>`;
+    popupRef.classList.remove('hidden');
+}
+
+function closePopup() {
+    document.getElementById('popup-div').classList.add('hidden');
 }
 
 function switchFunc(value, i) {
