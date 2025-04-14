@@ -1,5 +1,5 @@
 let dbURL1 = 'https://pokeapi.co/api/v2/pokemon?limit=';
-let limit = 50;
+let limit = 30;
 let dbURL2 = '&offset=0';
 let allPokemonData = null;
 
@@ -10,7 +10,7 @@ function loadBody() {
 }
 
 async function getData() {
-    let response = await fetch(getDbURL() + '.json');
+    let response = await fetch(getDbURL());
     let data = await response.json();
     allPokemonData = data;
     showTemplate(data)
@@ -23,6 +23,7 @@ async function showTemplate(data) {
     window.scrollTo({ top: 0, behavior: 'smooth' });
     let loadingRef = document.getElementById('preloader');
     loadingRef.classList.remove('hidden');
+    document.body.classList.add('no-scroll');
 
     for (let i = 0; i < data.results.length; i++) {
         let pokemonResponse = await fetch(data.results[i].url);
@@ -43,15 +44,18 @@ async function showTemplate(data) {
     }
 
     loadingRef.classList.add('hidden');
+    document.body.classList.remove('no-scroll');
 
 }
 
 async function showCard(i) {
-    let response = await fetch(getDbURL() + '.json');
+    let response = await fetch(getDbURL());
     let data = await response.json();
     let pokemonResponse = await fetch(data.results[i].url);
     let pokemonData = await pokemonResponse.json();
     let popupRef = document.getElementById('popup-div');
+
+    document.body.classList.add('no-scroll');
 
     popupRef.innerHTML = popupTemplate(pokemonData, i);
 
@@ -84,10 +88,13 @@ async function showCard(i) {
 function closePopup() {
     document.getElementById('popup-div').classList.add('hidden');
     document.getElementById('content').classList.remove('bright');
+    document.body.classList.remove('no-scroll');
+
+    
 }
 
 async function showStats(whichStat, i) {
-    let response = await fetch(getDbURL() + '.json');
+    let response = await fetch(getDbURL());
     let data = await response.json();
     let pokemonResponse = await fetch(data.results[i].url);
     let pokemonData = await pokemonResponse.json();
@@ -109,28 +116,33 @@ async function showStats(whichStat, i) {
             abilitiesRef.innerHTML += `<li>${pokemonData.abilities[j].ability.name}</li>`;
         }
     } else if (whichStat == 'stats') {
+        
         document.getElementById('main-info').classList.remove('border-bottom');
         document.getElementById('stats-info').classList.add('border-bottom');
         document.getElementById('evo-info').classList.remove('border-bottom');
+        
         popupInfoRef.innerHTML = statsTemplate(pokemonData);
+        
     } else if (whichStat == 'evo') {
         document.getElementById('main-info').classList.remove('border-bottom');
         document.getElementById('stats-info').classList.remove('border-bottom');
         document.getElementById('evo-info').classList.add('border-bottom');
         promiseEvo(evoChainData, popupInfoRef);
 
-
+        
     }
+   
 }
 
 async function search() {
-
+    let response = await fetch(getDbURL());
+    let data = await response.json();
+    let contentRef = document.getElementById('content');
     let searchInput = document.getElementById('searchbar').value.toLowerCase();
-    if (document.getElementById('searchbar').value.length >= 2) {
+
+    if (document.getElementById('searchbar').value.length >= 3) {
         document.getElementById('search-p').classList.add('hidden');
-        let response = await fetch(getDbURL());
-        let data = await response.json();
-        let contentRef = document.getElementById('content');
+        
         contentRef.innerHTML = '';
 
         for (let i = 0; i < data.results.length; i++) {
@@ -155,17 +167,35 @@ async function search() {
                 }
             }
         }
-    } else {
-        document.getElementById('search-p').classList.remove('hidden');
-        showTemplate(allPokemonData);
-    }
+    } else if (document.getElementById('searchbar').value.length == 0) {
+        document.getElementById('search-p').classList.add('hidden');
+        document.getElementById('conten-button').classList.remove('hidden');
+        showTemplate(data);
+  } else {
+    document.getElementById('search-p').classList.remove('hidden');
+    document.getElementById('conten-button').classList.add('hidden');
+  }
 }
 
 function loadMoreContent() {
-    limit += 50;
+    limit += 30;
     getData();
 }
 
 function getDbURL() {
     return dbURL1 + `${limit}` + dbURL2;
+}
+
+function nextCard(i) {
+    i++;
+    showCard(i);
+}
+
+function prevCard(i) {
+    i--;
+    showCard(i);
+}
+
+function eventStop(event) {
+    event.stopPropagation();
 }

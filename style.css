@@ -7,6 +7,10 @@
     /* border: 1px solid red; */
 }
 
+body.no-scroll{
+    overflow: hidden;
+}
+
 p {
     color: red;
     margin: 0;
@@ -51,6 +55,7 @@ footer {
 }
 
 .footer-div {
+    align-items: center;
     display: flex;
     width: 100%;
     justify-content: center;
@@ -364,7 +369,6 @@ li::first-letter {
     .popup-div {
         height: 460px;
         width: 300px;
-        margin: 12vh auto;
     }
 
     .popup-card-img {

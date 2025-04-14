@@ -12,10 +12,12 @@ function mainTemplate(pokemonData, i) {
 }
 
 function popupTemplate(pokemonData, i) {
-    return `<div class='popup-card'>
+    return `<div class='popup-card' onclick='eventStop(event)'>
                                 <div class='card-header card-header-1000px'>
                                     <h2>#${pokemonData.id}</h2>
+                                    <button onclick='prevCard(${i})'><</button>
                                     <h2>${pokemonData.species.name}</h2>
+                                    <button onclick='nextCard(${i})'>></button>
                                     <button onclick='closePopup()'>X</button>
                                 </div>
                                 <img src='${pokemonData.sprites.front_default}' class='popup-card-img' id='popup-card-img-${i}'>

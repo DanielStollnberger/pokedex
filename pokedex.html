@@ -4,11 +4,12 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
+    <title>Pokédex</title>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Open+Sans:ital,wght@0,300..800;1,300..800&display=swap"
         rel="stylesheet">
+        <link rel="icon" href="./img/logo.png" type="image/x-icon">
     <link rel="stylesheet" href="style.css">
     <script src="script.js"></script>
     <script src="./scripts/switch.js"></script>
@@ -17,13 +18,13 @@
 </head>
 <header>
     <div class="header-div">
-        <h1>POKEDEX</h1><div class="search-div"><input type="search" oninput="search()" id="searchbar" class="input" placeholder="search..."><p class="hidden id-search" id="search-p">Machst du bitte min. 2 Buchstabe</p></div>
+        <div style="display: flex;align-items: center;gap: 10px;"><img src="./img/logo.png" style="height: 50px;filter: invert(100%);"><h1>Pokédex</h1></div><div class="search-div"><input type="search" onkeyup="search()" id="searchbar" class="input" placeholder="search..."><p class="hidden id-search" id="search-p">Please insert atleast 3 Characters</p></div>
     </div>
 </header>
 
 <body onload="loadBody()">
     <section id="preloader" class="hidden preloader"></section>
-    <section class="main-section">
+    <section class="main-section" onclick="closePopup()">
         <div class="main-div" id="content">
 
         </div>
@@ -31,13 +32,13 @@
 
         </div>
         <div>
-            <button class="load-button" onclick="loadMoreContent()">Load More</button>
+            <button class="load-button" onclick="loadMoreContent()" id="conten-button">Load More</button>
         </div>
     </section>
 </body>
 <footer>
     <div class="footer-div">
-        <h1>danel.ex</h1>
+        <img src="./img/logo.png" style="height: 50px;filter: invert(100%);"><h1>danel.ex</h1>
     </div>
 </footer>
 
