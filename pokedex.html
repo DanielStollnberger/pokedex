@@ -14,21 +14,24 @@
     <script src="./scripts/switch.js"></script>
     <script src="./scripts/template.js"></script>
     <script src="./scripts/promise.js"></script>
-    <script src="./scripts/for.js"></script>
 </head>
 <header>
     <div class="header-div">
-        <h1>POKEDEX</h1><input type="search" onkeydown="search()">
+        <h1>POKEDEX</h1><div class="search-div"><input type="search" oninput="search()" id="searchbar" class="input" placeholder="search..."><p class="hidden id-search" id="search-p">Machst du bitte min. 2 Buchstabe</p></div>
     </div>
 </header>
 
 <body onload="loadBody()">
+    <section id="preloader" class="hidden preloader"></section>
     <section class="main-section">
         <div class="main-div" id="content">
 
         </div>
         <div class="popup-div hidden" id="popup-div">
 
+        </div>
+        <div>
+            <button class="load-button" onclick="loadMoreContent()">Load More</button>
         </div>
     </section>
 </body>
